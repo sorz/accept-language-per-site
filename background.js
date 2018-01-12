@@ -25,11 +25,17 @@ function registerHandle() {
 }
 
 function updateOptions(changes) {
-  Object.assign(opts, changes);
+  for (const key in changes) {
+    opts[key] = changes[key].newValue;
+  }
   registerHandle();
 }
 
-browser.storage.local.get().then(updateOptions);
+browser.storage.local.get().then(v => {
+  opts = v;
+  registerHandle();
+});
+
 browser.storage.onChanged.addListener((changes, area) => {
   if (area === "local") updateOptions(changes);
 });
