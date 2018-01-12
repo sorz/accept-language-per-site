@@ -1,0 +1,23 @@
+{
+  "manifest_version": 2,
+  "name": "Accept-Language per site",
+  "version": "0.1",
+
+  "description": "Change Accept-Language for different sites",
+
+  "permissions": [
+    "webRequest",
+    "webRequestBlocking",
+    "storage",
+    "*://*/*"
+  ],
+
+  "background": {
+    "scripts": ["background.js"]
+  },
+
+  "options_ui": {
+    "page": "options.html",
+    "browser_style": true
+  }
+}
