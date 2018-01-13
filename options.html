@@ -2,14 +2,19 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <style>
+    input { margin: 0.5em; }
+  </style>
 </head>
 <body>
   <form>
-    <label>Host<input type="text" id="host"></label>
-    <label>Accept-Language<input type="text" id="language"></label>
+    <p id="row">
+      <label>Host<input type="text" class="host"></label>
+      <label>Accept-Language<input type="text" class="language"></label>
+    </p>
     <button type="submit">Save</button>
   </form>
+  <script src="rules.js"></script>
   <script src="options.js"></script>
 </body>
 </html>
-

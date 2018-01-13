@@ -1,22 +1,22 @@
 "use strict";
 
-let opts = {};
+let rules = [];
 
 function rewriteAcceptLanguage(e) {
-  for (var header of e.requestHeaders) {
+  let rule = rules[0];
+  for (let header of e.requestHeaders) {
     if (header.name.toLowerCase() === "accept-language") {
-      header.value = opts.language;
-      console.log(`${header.name}: ${header.value}`);
+      header.value = rule.language;
     }
   }
   return {requestHeaders: e.requestHeaders};
 }
 
-function registerHandle() {
+async function registerHandle() {
   chrome.webRequest.onBeforeSendHeaders.removeListener(rewriteAcceptLanguage);
-  if ((!opts.host) || (!opts.language)) return;
-
-  let patterns = [`*://${opts.host}/*`];
+  rules = await getRules();
+  let patterns = rules.map(rule => rule.pattern);
+  if (!patterns) return;
   chrome.webRequest.onBeforeSendHeaders.addListener(
     rewriteAcceptLanguage,
     {urls: patterns},
@@ -24,18 +24,9 @@ function registerHandle() {
   );
 }
 
-function updateOptions(changes) {
-  for (const key in changes) {
-    opts[key] = changes[key].newValue;
-  }
-  registerHandle();
-}
-
-browser.storage.local.get().then(v => {
-  opts = v;
-  registerHandle();
+registerHandle().then(() => {
+  browser.storage.onChanged.addListener(async (changes, area) => {
+    if (area === "local") await registerHandle();
+  });
 });
 
-browser.storage.onChanged.addListener((changes, area) => {
-  if (area === "local") updateOptions(changes);
-});

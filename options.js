@@ -2,16 +2,22 @@
 
 function saveOptions(e) {
   e.preventDefault();
+  let rules = [{
+    host: document.querySelector(".host").value,
+    language: document.querySelector(".language").value
+  }];
+  console.log(rules);
   browser.storage.local.set({
-    host: document.querySelector("#host").value,
-    language: document.querySelector("#language").value
+    rules: rules
   });
 }
 
 async function restoreOptions() {
-  let opts = await browser.storage.local.get(["host", "language"]);
-  document.querySelector("#host").value = opts.host || "";
-  document.querySelector("#language").value = opts.language || "";
+  let rules = await getRules();
+  for (const rule of rules) {
+    document.querySelector(".host").value = rule.host;
+    document.querySelector(".language").value = rule.language;
+  }
 }
 
 document.addEventListener("DOMContentLoaded", restoreOptions);
