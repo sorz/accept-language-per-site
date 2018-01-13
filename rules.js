@@ -11,12 +11,19 @@ class Rule {
     return `*://${this.host}/*`
   }
 
+  get formHTML() {
+    let li = document.createElement('li');
+    li.innerHTML = `
+      <label>Host<input type="text" class="host" value=${this.host}></label>
+      <label>Accept-Language<input type="text" class="language"
+        value=${this.language}></label>`;
+    return li;
+  }
+
   handleRewrite(e) {
-    console.log("handle rewrite");
     for (let header of e.requestHeaders) {
       if (header.name.toLowerCase() === "accept-language") {
         header.value = this.language;
-        console.log(`${e.host}: ${header.value}`);
       }
     }
     return {requestHeaders: e.requestHeaders};

@@ -14,10 +14,10 @@ function saveOptions(e) {
 
 async function restoreOptions() {
   let rules = await getRules();
-  for (const rule of rules) {
-    document.querySelector(".host").value = rule.host;
-    document.querySelector(".language").value = rule.language;
-  }
+  let list = document.querySelector("#list");
+  list.innerHTML = '';
+  rules.forEach(rule => list.appendChild(rule.formHTML));
+  list.appendChild(new Rule("", "").formHTML);
 }
 
 document.addEventListener("DOMContentLoaded", restoreOptions);
