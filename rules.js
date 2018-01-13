@@ -2,8 +2,8 @@
 
 class Rule {
   constructor(host, language) {
-    this.host = host;
-    this.language = language;
+    this.host = host || "";
+    this.language = language || "";
     this.handleRewrite = this.handleRewrite.bind(this);
   }
 
@@ -34,7 +34,6 @@ class Rule {
   }
 
   register(callback) {
-    console.log("add " + this.pattern);
     chrome.webRequest.onBeforeSendHeaders.addListener(
       this.handleRewrite,
       {urls: [this.pattern]},

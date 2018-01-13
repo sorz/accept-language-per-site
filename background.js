@@ -15,4 +15,3 @@ registerHandle().then(() => {
     if (area === "local") await registerHandle();
   });
 });
-
