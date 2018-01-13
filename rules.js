@@ -12,12 +12,11 @@ class Rule {
   }
 
   get formHTML() {
-    let li = document.createElement('li');
-    li.innerHTML = `
-      <label>Host<input type="text" class="host" value=${this.host}></label>
-      <label>Accept-Language<input type="text" class="language"
-        value=${this.language}></label>`;
-    return li;
+    let template = document.querySelector("#rule");
+    let content = document.importNode(template, true).content;
+    content.querySelector(".host").value = this.host;
+    content.querySelector(".language").value = this.language;
+    return content;
   }
 
   handleRewrite(e) {
