@@ -12,3 +12,6 @@ Firefox 48 or above
 2. Go to `about:addons` page, open options, add domain name
    (e.g. `*.example.com`) and languages (e.g. `en`).
 3. Click save button.
+
+## Acknowledgement
+The icon is derived from [Material icons](https://material.io/icons/).
