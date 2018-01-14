@@ -7,7 +7,8 @@
   "description": "Change Accept-Language for different sites",
   "applications": {
     "gecko": {
-      "id": "addon-accept-lang@sorz.org"
+      "id": "addon-accept-lang@sorz.org",
+      "strict_min_version": "48.0"
     }
   },
 
