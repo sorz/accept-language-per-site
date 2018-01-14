@@ -11,6 +11,10 @@
       "strict_min_version": "48.0"
     }
   },
+  "icons": {
+    "48": "icon.svg",
+    "96": "icon.svg"
+  },
 
   "permissions": [
     "webRequest",
