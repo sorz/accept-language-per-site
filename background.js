@@ -1,11 +1,11 @@
 "use strict";
 
-let rules = [];
+let rules = new RuleSet([]);
 
 async function registerHandle() {
-  rules.forEach(r => r.unregister());
+  rules.unregisterAll();
   rules = new RuleSet(await getRules());
-  rules.forEach(r => r.register());
+  rules.registerAll();
 }
 
 registerHandle().then(() => {

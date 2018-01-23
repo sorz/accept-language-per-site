@@ -31,29 +31,37 @@ class Rule {
     return content;
   }
 
-  handleRewrite(e) {
-    for (let header of e.requestHeaders) {
+  // callback for webRequest.onBeforeSendHeaders()
+  handleRewrite(ev) {
+    for (let header of ev.requestHeaders) {
       if (header.name.toLowerCase() === "accept-language") {
         header.value = this.language;
       }
     }
-    return {requestHeaders: e.requestHeaders};
+    return {requestHeaders: ev.requestHeaders};
   }
 
   unregister() {
-    chrome.webRequest.onBeforeSendHeaders.removeListener(this.handleRewrite);
+    removeListener(this.handleRewrite);
   }
 
   register(callback) {
-    chrome.webRequest.onBeforeSendHeaders.addListener(
-      this.handleRewrite,
-      {urls: [this.pattern]},
-      ["blocking", "requestHeaders"]
-    );
+    addListener(this.pattern, this.handleRewrite);
   }
 }
 
+const addListener = (pattern, callback) =>
+  chrome.webRequest.onBeforeSendHeaders.addListener(
+    callback,
+    {urls: [pattern]},
+    ["blocking", "requestHeaders"]
+  );
+
+const removeListener = cb =>
+  chrome.webRequest.onBeforeSendHeaders.removeListener(cb);
+
 // "a.b.c" => ["a.b.c", "b.c", "c", ""]
+// or ["b.c", "c", ""] if self == false
 function subHosts(host, self = true) {
   let segs = host.split(".");
   segs.reduceRight((suffix, host, i, segs) => {
@@ -74,7 +82,7 @@ class RuleSet {
     let keyRules = rules.map(r => [r.pureHost, r]);
     this.tames = new Map(keyRules.filter(kr => !kr[1].isWild));
     this.wilds = new Map(keyRules.filter(kr => kr[1].isWild));
-    console.log(this.wilds);
+    this.handleRewrite = this.handleRewrite.bind(this);
   }
 
   hasOverlapping() {
@@ -98,6 +106,25 @@ class RuleSet {
   forEach(func) {
     for (let rule of this.tames.values()) func(rule);
     for (let rule of this.wilds.values()) func(rule);
+  }
+
+  registerAll() {
+    if (!this.hasOverlapping())
+      this.forEach(r => r.register());
+    else
+      addListener("*://*/*", this.handleRewrite);
+  }
+
+  unregisterAll() {
+    removeListener(this.handleRewrite);
+    this.forEach(r => r.unregister());
+  }
+
+  // callback for webRequest.onBeforeSendHeaders()
+  handleRewrite(ev) {
+    let rule = this.get(new URL(ev.url).hostname);
+    if (rule) return rule.handleRewrite(ev);
+    else return {requestHeaders: ev.requestHeaders};
   }
 }
 
