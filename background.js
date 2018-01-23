@@ -3,11 +3,9 @@
 let rules = [];
 
 async function registerHandle() {
-  for (let rule of rules)
-    rule.unregister();
-  rules = await getRules();
-  for (let rule of rules)
-    rule.register();
+  rules.forEach(r => r.unregister());
+  rules = new RuleSet(await getRules());
+  rules.forEach(r => r.register());
 }
 
 registerHandle().then(() => {
