@@ -1,13 +1,13 @@
 "use strict";
 
-function saveOptions(e) {
+async function saveOptions(e) {
   e.preventDefault();
   let list = document.querySelectorAll("#list li");
   let rules = Array.from(list).map(li => ({
       host: li.querySelector(".host").value,
       language: li.querySelector(".language").value
   })).filter(rule => rule.host && rule.language);
-  browser.storage.local.set({
+  await browser.storage.local.set({
     rules: rules
   });
 }

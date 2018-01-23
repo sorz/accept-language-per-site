@@ -21,7 +21,8 @@
   </p>
   <template id="rule">
     <li>
-      <label>Host<input type="text" class="host"></label>
+      <label>Host<input type="text" class="host"
+          pattern="\*|(\*\.)?[\w-]+(\.[\w-]+)*"></label>
       <label>Accept-Language<input type="text" class="language"></label>
     </li>
   </template>
