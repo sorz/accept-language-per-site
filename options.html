@@ -5,14 +5,18 @@
   <style>
     input { margin: 0.5em; }
     ul#list { list-style-type: none; }
+    button { margin-right: 5px;  }
+    #saved { opacity: 0; color: darkgreen; transition: 0.2s ease-out }
+    #saved.show { opacity: 0.5; }
   </style>
 </head>
 <body>
   <p>Add rules below</p>
   <form>
     <ul id="list"></ul>
-    <button id="more">Add more</button>
+    <button id="more" type="button">Add more</button>
     <button type="submit">Save</button>
+    <span id="saved">saved</span>
   </form>
   <p>Examples<br>
     <code>example.com</code> – match <code>example.com</code> only.<br>
