@@ -1,4 +1,4 @@
-"use strict";
+import { Rule, getRules } from "./rules.js";
 
 const $ = selector => document.querySelector(selector);
 const sleep = ms => new Promise(cb => setTimeout(cb, ms));

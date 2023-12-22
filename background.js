@@ -1,4 +1,4 @@
-"use strict";
+import { RuleSet, getRules } from "./rules.js";
 
 async function applyRulesFromStorage() {
   const rules = new RuleSet(await getRules());

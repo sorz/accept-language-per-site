@@ -1,6 +1,4 @@
-"use strict";
-
-class Rule {
+export class Rule {
   constructor(host, language) {
     this.host = host || "";
     this.language = language || "";
@@ -35,7 +33,7 @@ class Rule {
   }
 }
 
-class RuleSet {
+export class RuleSet {
   constructor(rules) {
     this.rules = rules;
   }
@@ -50,7 +48,7 @@ class RuleSet {
   }
 }
 
-async function getRules() {
+export async function getRules() {
   let opts = await browser.storage.local.get("rules");
   if (opts.rules)
     return opts.rules
