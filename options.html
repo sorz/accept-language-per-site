@@ -2,21 +2,26 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    input { margin: 0.5em; }
-    ul#list { list-style-type: none; }
-    button { margin-right: 5px;  }
+    ul { list-style-type: none; display: flex; padding-left: 0; }
+    ul#list { flex-direction: column; row-gap: 1rem; }
+    ul#actions { column-gap: 8px; }
     #saved { opacity: 0; color: darkgreen; transition: 0.2s ease-out }
     #saved.show { opacity: 0.5; }
+    ul#list > li { display: flex; flex-wrap: wrap; column-gap: 1rem; }
+    .field-name { min-width: 6em; display: inline-block; text-align: right; }
   </style>
 </head>
 <body>
   <p>Add rules below</p>
   <form>
     <ul id="list"></ul>
-    <button id="more" type="button">Add more</button>
-    <button type="submit">Save</button>
-    <span id="saved">saved</span>
+    <ul id="actions">
+      <li><button id="more" type="button">Add more</button></li>
+      <li><button type="submit">Save</button></li>
+      <li><span id="saved">saved</span></li>
+    </ul>
   </form>
   <p>Examples<br>
     <code>example.com</code> – match <code>example.com</code> only.<br>
@@ -25,9 +30,14 @@
   </p>
   <template id="rule">
     <li>
-      <label>Host<input type="text" class="host"
-          pattern="([\-\*\w]+.?)+"></label>
-      <label>Accept-Language<input type="text" class="language"></label>
+      <label>
+        <span class="field-name">Host</span>
+        <input type="text" class="host" pattern="([\-\*\w]+.?)+">
+      </label>
+      <label>
+        <span class="field-name">Language</span>
+        <input type="text" class="language">
+      </label>
     </li>
   </template>
   <script type="module" src="options.js"></script>
