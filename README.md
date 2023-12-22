@@ -4,7 +4,10 @@ Firefox extension to change `Accept-Language` header for different websites.
 
 ## Requirement
 
-Firefox 48 or above
+Current version: Firefox 113 or above
+
+v0.2.x (`mv2` branch): Firefox 48 or above
+
 
 ## Usage
 
