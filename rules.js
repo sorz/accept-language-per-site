@@ -21,7 +21,7 @@ class Rule {
       },
       condition: {
         resourceTypes: ["main_frame", "sub_frame"],
-        urlFilter: `||${this.host}`
+        urlFilter: this.host === "*" ? "*" : `||${this.host}`
       }
     };
   }
