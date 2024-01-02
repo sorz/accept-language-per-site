@@ -20,7 +20,8 @@ export class Rule {
       condition: {
         resourceTypes: ["main_frame", "sub_frame"],
         urlFilter: this.host === "*" ? "*" : `||${this.host}`
-      }
+      },
+      priority: this.host.split(".").length
     };
   }
 
