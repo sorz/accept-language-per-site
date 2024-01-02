@@ -4,21 +4,35 @@ const $ = selector => document.querySelector(selector);
 const sleep = ms => new Promise(cb => setTimeout(cb, ms));
 
 async function saveOptions(ev) {
+  const button = $("button[type='submit']");
   ev.preventDefault();
-  ev.target.disabled = true;
+  button.disabled = true;
   try {
-    let list = document.querySelectorAll("#list li");
-    let rules = Array.from(list).map(li => ({
+    // Get rules from form
+    const list = document.querySelectorAll("#list li");
+    const rules = Array.from(list).map(li => ({
         host: li.querySelector(".host").value,
         language: li.querySelector(".language").value
     })).filter(rule => rule.host && rule.language);
+
+    // Check permission
+    const permissions = {
+      origins: rules.map((rule) => `*://${rule.host}/*`),
+    };
+    if (!await browser.permissions.request(permissions)) {
+      throw new Error("permssions rejected");
+    }
+
+    // Save rules
     await browser.storage.local.set({ rules: rules });
+    $("#saved").classList.add("show");
+    await sleep(800);
+    $("#saved").classList.remove("show");
+  } catch (err) {
+    alert(`Failed to save rules: ${err}`)
   } finally {
-    ev.target.disabled = false;
+    button.disabled = false;
   }
-  $("#saved").classList.add("show");
-  await sleep(800);
-  $("#saved").classList.remove("show");
 }
 
 async function restoreOptions() {
