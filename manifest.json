@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Accept-Language per site",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "homepage_url": "https://github.com/sorz/accept-language-per-site",
   "author": "Shell Chen",
   "description": "Change Accept-Language for different sites",
