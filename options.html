@@ -4,7 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    ul { list-style-type: none; display: flex; padding-left: 0; }
+    section:not(:last-of-type) { margin-bottom: 24px; }
+    ul#list, ul#actions { list-style-type: none; display: flex; padding-left: 0; }
     ul#list { flex-direction: column; row-gap: 1rem; }
     ul#actions { column-gap: 8px; }
     #saved { opacity: 0; color: darkgreen; transition: 0.2s ease-out }
@@ -14,20 +15,27 @@
   </style>
 </head>
 <body>
-  <p>Add rules below</p>
-  <form>
-    <ul id="list"></ul>
-    <ul id="actions">
-      <li><button id="more" type="button">Add more</button></li>
-      <li><button type="submit">Save</button></li>
-      <li><span id="saved">saved</span></li>
+  <section>
+    <h3>Rules</h3>
+    <form>
+      <ul id="list"></ul>
+      <ul id="actions">
+        <li><button id="more" type="button">Add more</button></li>
+        <li><button type="submit">Save</button></li>
+        <li><span id="saved">saved</span></li>
+      </ul>
+    </form>
+  </section>
+  <section>
+    <h3>Examples</h3>
+    <ul>
+      <li><code>*</code> - match everything.</li>
+      <li><code>example.com</code> – match <code>example.com</code> only.</li>
+      <li>
+        <code>*.example.com</code> – match all subdomains of <code>example.com</code> but not itself.
+      </li>
     </ul>
-  </form>
-  <p>Examples<br>
-    <code>example.com</code> – match <code>example.com</code> only.<br>
-    <code>*.example.com</code> – match <code>example.com</code> itself and
-    all its subdomains.
-  </p>
+  </section>
   <template id="rule">
     <li>
       <label>
