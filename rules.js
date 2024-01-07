@@ -4,8 +4,18 @@ export class Rule {
     this.language = language || "";
   }
 
+  get canonicalDomain() {
+    if (this.host === '*') {
+      return '*';
+    } if (this.host.startsWith('*.')) {
+      return '*.' + new URL(`http://${this.host.slice(2)}`).host;
+    } else {
+      return new URL(`http://${this.host}`).host;
+    }
+  }
+
   get urlFilter() {
-    return `*://${this.host}/*`;
+    return `*://${this.canonicalDomain}/*`;
   }
 
   get rule() {
