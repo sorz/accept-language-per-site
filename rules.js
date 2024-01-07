@@ -4,6 +4,10 @@ export class Rule {
     this.language = language || "";
   }
 
+  get urlFilter() {
+    return `*://${this.host}/*`;
+  }
+
   get rule() {
     return {
       id: Math.floor(Math.random() * Number.MAX_SAFE_INTEGER),
@@ -19,7 +23,7 @@ export class Rule {
       },
       condition: {
         resourceTypes: ["main_frame", "sub_frame"],
-        urlFilter: this.host === "*" ? "*" : `||${this.host}`
+        urlFilter: this.urlFilter
       },
       priority: this.host.split(".").length
     };

@@ -6,8 +6,8 @@ async function applyRulesFromStorage() {
 }
 
 chrome.runtime.onInstalled.addListener(async (details) => {
-  if (details.reason === 'update' && details.previousVersion < '0.3.0') {
-    console.info(`Migrate from ${details.previousVersion} mv2 to mv3`);
+  if (details.reason === 'update') {
+    console.info('Addon updated; reload rules.');
     await applyRulesFromStorage();
   }
 });
