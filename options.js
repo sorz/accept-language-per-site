@@ -20,7 +20,7 @@ async function saveOptions(ev) {
 
     // Check permission
     const permissions = {
-      origins: rules.map((rule) => rule.urlFilter),
+      origins: rules.map((rule) => rule.permissionOrigins),
     };
     if (!await browser.permissions.request(permissions)) {
       throw new Error("permssions rejected");

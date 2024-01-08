@@ -12,7 +12,7 @@ chrome.runtime.onInstalled.addListener(async (details) => {
   }
 });
 
-browser.storage.onChanged.addListener(async (changes, area) => {
+browser.storage.local.onChanged.addListener(async () => {
   console.debug("Ruleset changed");
-  if (area === "local") await applyRulesFromStorage();;
+  await applyRulesFromStorage();;
 });

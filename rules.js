@@ -1,24 +1,57 @@
 export class Rule {
   constructor(host, language) {
-    this.host = host || "";
-    this.language = language || "";
+    // "host" is legacy name, better be "expr"
+    // The true host name is `this.canonicalDomain`
+    this.host = host || '';
+    this.language = language || '';
+  }
+
+  get isUniversalWidlcard() {
+    return this.host === '*';
+  }
+
+  get isSubdomainWildcard() {
+    return this.host.startsWith('*.');
   }
 
   get canonicalDomain() {
-    if (this.host === '*') {
-      return '*';
-    } if (this.host.startsWith('*.')) {
-      return '*.' + new URL(`http://${this.host.slice(2)}`).host;
+    if (this.isUniversalWidlcard) {
+      return null;
+    } else if (this.isSubdomainWildcard) {
+      return new URL(`http://${this.host.slice(2)}`).host;
     } else {
       return new URL(`http://${this.host}`).host;
     }
   }
 
-  get urlFilter() {
-    return `*://${this.canonicalDomain}/*`;
+  get permissionOrigins() {
+    if (this.isUniversalWidlcard) {
+      return '*://*/*';
+    } else {
+      return `*://*.${this.canonicalDomain}/*`;
+    }
+  }
+
+  get regexFilter() {
+    if (this.isUniversalWidlcard) {
+      return "https?:\\/\\/.*";
+    }
+    const escapedHost = this.canonicalDomain.replace('.', '\\.');
+    if (this.isSubdomainWildcard) {
+      return `https?:\\/\\/([^\\/]+\\.)?${escapedHost}\\/.*`;
+    } else {
+      return `https?:\\/\\/${escapedHost}\\/.*`;
+    }
   }
 
   get rule() {
+    let priority = this.host.split(".").length;
+    if (!this.isUniversalWidlcard && !this.isSubdomainWildcard) {
+      // Let `example.com` precedent `*.example.com`
+      priority += 1;
+    }
+    console.debug(`Rule P${priority} ${this.language} [${this.host}] /${this.regexFilter}/`)
+
     return {
       id: Math.floor(Math.random() * Number.MAX_SAFE_INTEGER),
       action: {
@@ -33,9 +66,9 @@ export class Rule {
       },
       condition: {
         resourceTypes: ["main_frame", "sub_frame"],
-        urlFilter: this.urlFilter
+        regexFilter: this.regexFilter
       },
-      priority: this.host.split(".").length
+      priority
     };
   }
 
