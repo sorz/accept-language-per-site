@@ -52,6 +52,7 @@ export class Rule {
     }
     console.debug(`Rule P${priority} ${this.language} [${this.host}] /${this.regexFilter}/`)
 
+    // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/declarativeNetRequest#rules
     return {
       id: Math.floor(Math.random() * Number.MAX_SAFE_INTEGER),
       action: {
@@ -65,7 +66,6 @@ export class Rule {
         ]
       },
       condition: {
-        resourceTypes: ["main_frame", "sub_frame"],
         regexFilter: this.regexFilter
       },
       priority
