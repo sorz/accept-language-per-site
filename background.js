@@ -5,7 +5,7 @@ async function applyRulesFromStorage() {
   rules.registerAll();
 }
 
-chrome.runtime.onInstalled.addListener(async (details) => {
+browser.runtime.onInstalled.addListener(async (details) => {
   if (details.reason === 'update') {
     console.info('Addon updated; reload rules.');
     await applyRulesFromStorage();

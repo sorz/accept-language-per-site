@@ -87,8 +87,8 @@ export class RuleSet {
   }
 
   async registerAll() {
-    const oldRules = await chrome.declarativeNetRequest.getDynamicRules();
-    await chrome.declarativeNetRequest.updateDynamicRules({
+    const oldRules = await browser.declarativeNetRequest.getDynamicRules();
+    await browser.declarativeNetRequest.updateDynamicRules({
       removeRuleIds: oldRules.map((r) => r.id),
       addRules: this.rules.map((r) => r.rule),
     });
