@@ -66,6 +66,7 @@ export class Rule {
         ]
       },
       condition: {
+        excludedResourceTypes: [],
         regexFilter: this.regexFilter
       },
       priority
