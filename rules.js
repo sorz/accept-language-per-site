@@ -38,9 +38,9 @@ export class Rule {
     }
     const escapedHost = this.canonicalDomain.replace('.', '\\.');
     if (this.isSubdomainWildcard) {
-      return `https?:\\/\\/([^\\/]+\\.)?${escapedHost}\\/.*`;
+      return `https?:\\/\\/([^\\/]+\\.)?${escapedHost}(:\\d+)?\\/.*`;
     } else {
-      return `https?:\\/\\/${escapedHost}\\/.*`;
+      return `https?:\\/\\/${escapedHost}(:\\d+)?\\/.*`;
     }
   }
 
