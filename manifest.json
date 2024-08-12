@@ -8,7 +8,7 @@
   "browser_specific_settings": {
     "gecko": {
       "id": "addon-accept-lang@sorz.org",
-      "strict_min_version": "113.0"
+      "strict_min_version": "128.0"
     }
   },
   "icons": {
@@ -21,7 +21,7 @@
     "storage"
   ],
 
-  "host_permissions": [
+  "optional_host_permissions": [
     "*://*/*"
   ],
 
